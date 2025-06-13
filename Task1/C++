@@ -1,1 +1,170 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
 
+using namespace std;
+
+// Функция для проверки, является ли число простым
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    for (int i = 3; i <= sqrt(n); i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+// Задача 1
+void task1() {
+    int M, N;
+    cout << "Введите размеры матрицы M и N: ";
+    cin >> M >> N;
+
+    vector<vector<int>> matrix(M, vector<int>(N));
+    unordered_map<int, int> primeCounts;
+
+    // Заполняем матрицу случайными числами и считаем простые
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            matrix[i][j] = rand() % 51;
+            cout << matrix[i][j] << " ";
+            if (isPrime(matrix[i][j])) {
+                primeФCounts[matrix[i][j]]++;
+            }
+        }
+        cout << endl;
+    }
+
+    // Находим простое число с максимальным количеством вхождений
+    int maxCount = 0;
+    int mostFrequentPrime = -1;
+    for (const auto& pair : primeCounts) {
+        if (pair.second > maxCount) {
+            maxCount = pair.second;
+            mostFrequentPrime = pair.first;
+        }
+    }
+
+    if (mostFrequentPrime == -1) {
+        cout << "В матрице нет простых чисел." << endl;
+    } else {
+        cout << "Наиболее часто встречающееся простое число: " << mostFrequentPrime 
+             << " (встречается " << maxCount << " раз)" << endl;
+    }
+}
+
+// Задача 2
+void task2() {
+    int N;
+    cout << "Введите N: ";
+    cin >> N;
+
+    vector<vector<string>> matrix(N, vector<string>(N));
+
+    // Заполняем матрицу по заданному шаблону
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            if (i == j) {
+                matrix[i][j] = "000";
+            } else if (j > i) {
+                matrix[i][j] = to_string(100 + (N - 1 - i) - (j - i - 1));
+            } else {
+                matrix[i][j] = "100";
+            }
+        }
+    }
+
+    // Выводим матрицу
+    for (const auto& row : matrix) {
+        for (const auto& cell : row) {
+            cout << setw(4) << cell;
+        }
+        cout << endl;
+    }
+}
+
+// Задача 3
+void task3() {
+    int M, N;
+    cout << "Введите размеры матрицы M и N: ";
+    cin >> M >> N;
+
+    vector<vector<int>> matrix(M, vector<int>(N));
+
+    // Заполняем матрицу (в примере сказано, что все элементы различны)
+    cout << "Введите " << M * N << " различных элементов матрицы:" << endl;
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    // Выводим матрицу
+    cout << "\nВведенная матрица:" << endl;
+    for (const auto& row : matrix) {
+        for (const auto& cell : row) {
+            cout << setw(4) << cell;
+        }
+        cout << endl;
+    }
+
+    vector<int> result;
+
+    // Проверяем каждый элемент
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j) {
+            bool isMinInRow = true;
+            bool isMaxInCol = true;
+
+            // Проверяем, минимальный ли элемент в строке
+            for (int k = 0; k < N; ++k) {
+                if (matrix[i][k] < matrix[i][j]) {
+                    isMinInRow = false;
+                    break;
+                }
+            }
+
+            // Проверяем, максимальный ли элемент в столбце
+            for (int k = 0; k < M; ++k) {
+                if (matrix[k][j] > matrix[i][j]) {
+                    isMaxInCol = false;
+                    break;
+                }
+            }
+
+            if (isMinInRow && isMaxInCol) {
+                result.push_back(matrix[i][j]);
+            }
+        }
+    }
+
+    // Выводим результат
+    if (result.empty()) {
+        cout << "\nНет элементов, которые одновременно минимальны в строке и максимальны в столбце." << endl;
+    } else {
+        cout << "\nНайденные элементы (минимальные в строке и максимальные в столбце): ";
+        for (int num : result) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    srand(time(0)); // Инициализация генератора случайных чисел
+
+    cout << "Задача 1:" << endl;
+    task1();
+
+    cout << "\nЗадача 2:" << endl;
+    task2();
+
+    cout << "\nЗадача 3:" << endl;
+    task3();
+
+    return 0;
+}
