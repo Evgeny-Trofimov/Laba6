@@ -1,12 +1,11 @@
-// Подключаем необходимые заголовочные файлы
-#include <iostream>   // Для ввода/вывода
-#include <iomanip>    // Для манипуляторов вывода (setw, setfill)
-#include <random>     // Для генерации случайных чисел
-#include <vector>     // Для работы с динамическими массивами
-#include <array>      // Для работы с массивами фиксированного размера
-#include <string>     // Для работы со строками
-#include <limits>     // Для работы с ограничениями типов
-using namespace std;  // Используем стандартное пространство имен
+#include <iostream>   
+#include <iomanip>    
+#include <random>    
+#include <vector>     
+#include <array>      
+#include <string>     
+#include <limits>     
+using namespace std; 
 
 // Определяем псевдонимы типов для удобства
 using Byte = unsigned char;  // Байт - беззнаковый символ
